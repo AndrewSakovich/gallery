@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body onload="drawPic()">
+    
+    <section id="picturesHere">
+    <!-- <div><img src="images/red.jpg" style="width: 300px">
+    <p>Подпись</p>
+    </div>
+    <div><img src="images/troi.jpg" style="width: 300px">
+    <p>Подпись</p>
+    </div>
+    <div><img src="images/mir.jpg" style="width: 300px">
+    <p>Подпись</p>
+    </div> -->
+    </section>
+
+    <section id="bigPic">
+        <!-- <img src="images/red.jpg" style="width: 1000px">
+        <p>Подпись</p> -->
+    </section>
+    
+    <script>
+
+        let gallery = [
+
+            {
+                fname: ["red.jpg", "red1.jpg", "red2.jpg"],
+                w: "300",
+                title: "Красный костел",
+                link: "https://msj.by/katolicheskie-xramy/krasnyj-kostel-v-minske/",
+                subtitle: "В храме святого Симеона и святой Елены находится полномасштабная копия Туринской Плащаницы."
+            },
+            {
+                fname: ["troi.jpg", "troi1.jpg", "troi2.jpg"],
+                w: "300",
+                title: "Троицкое предместье",
+                link: "https://www.belarus.by/ru/travel/belarus-life/trinity-suburb",
+                subtitle: "Троицкое предместье — исторический район города Минска, расположенный в северо-восточной части исторического центра на левом берегу реки Свислочь."
+            },
+            {
+                fname: ["mir.jpg","mir1.jpg","mir2.jpg"],
+                w: "300",
+                title: "Мирский замок",
+                link: "https://mirzamak.by/",
+                subtitle: "Построенный в начале XVI в. магнатом Ю. И. Ильиничем замок стал первым частнособственническим замком на землях Беларуси"
+            },
+
+        ];
+
+        function drawPic() {
+        
+        let s = '';
+         for (i=0; i<gallery.length; i++) {
+
+            s += `
+
+            <div id="id${i}"><img onclick="showPicture('${gallery[i].fname[0]}','${gallery[i].subtitle}')" src="images/${gallery[i].fname[0]}" style="width: ${gallery[i].w}px" onmouseover="timerId=setTimeout('roll(${i})',1000)" onmouseout="clearTimeout(timerId)">
+            <p><a target="_blank" href="${gallery[i].link}">${gallery[i].title}</a></p>
+            </div>
+
+            `;
+         }
+         
+        //  console.log(s);
+
+         picturesHere.innerHTML = s;
+        
+        }
+
+        let p = 2; k = 0;
+        function roll(n) {
+            // console.log('in');
+            if(++k > p) k = 0;
+        mid = document.getElementById(`id${n}`);
+        mid.innerHTML = `
+        <img onclick="showPicture('${gallery[n].fname[k]}','${gallery[n].subtitle}')" src="images/${gallery[n].fname[k]}" style="width: ${gallery[n].w}px" onmouseout="stop()">
+            <p><a target="_blank" href="${gallery[n].link}">${gallery[n].title}</a></p>
+        `;
+            
+        timerId=setTimeout(`roll(${n})`,2000); 
+        }
+
+        function stop() {
+            clearTimeout(timerId);
+            drawPic();
+        }
+
+
+         function showPicture(p,sub) {
+            bigPic.innerHTML = `<img onclick="bigPic.innerHTML =''" src="images/${p}" style="width: 1000px">
+        <p>${sub}</p>`;
+         }
+
+    </script>
+
+   
+</body>
+</html>
